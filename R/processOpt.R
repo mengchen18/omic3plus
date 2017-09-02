@@ -35,7 +35,7 @@ function(x, center=TRUE, scale=FALSE, option = c("lambda1", "inertia", "uniform"
     w <- sapply(x, function(xx) value/sqrt(sum(xx^2)))
   } else if (opt == "uniform") {
     w <- rep(1, length(x))
-  } else if (opt == "uniform") {
+  } else if (opt == "nrow") {
     w <- sapply(x, function(xx) value/sqrt(nrow(xx)*length(x)))
   }
   mapply(SIMPLIFY = FALSE, function(xx, ww) xx*ww, xx=x, ww=w)
