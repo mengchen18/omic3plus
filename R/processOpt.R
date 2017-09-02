@@ -14,6 +14,7 @@
 #' 
 #' @keywords internal
 #' @export
+#' @examples 
 #' 
 
 processOpt <- 
@@ -34,3 +35,9 @@ function(x, center=TRUE, scale=FALSE, option = c("lambda1", "inertia", "uniform"
   }
   mapply(SIMPLIFY = FALSE, function(xx, ww) xx*ww, xx=x, ww=w)
 }
+
+
+data("NCI60_4arrays")
+v <- processOpt(NCI60_4arrays, option = "lambda1")
+processOpt(NCI60_4arrays, option = "inertia")
+

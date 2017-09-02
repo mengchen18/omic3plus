@@ -40,8 +40,8 @@ concord <- function(x, y, ncomp=2, dmod = 1, center = TRUE, scale = FALSE, optio
   
   val <- switch(option, 
                 "uniform" = 1, 
-                "lambda1" = ,
-                "inertia" = )
+                "lambda1" = svd(Ynorm)$d[1],
+                "inertia" = sum(Ynorm^2))
   
   Xnorm <- processOpt(x, center = center, scale = scale, option = option, value = val)
   
