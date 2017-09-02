@@ -5,7 +5,7 @@
 \title{Preprocess a list of matrices for concordance analysis}
 \usage{
 processOpt(x, center = TRUE, scale = FALSE, option = c("lambda1",
-  "inertia", "uniform"), value = 1)
+  "inertia", "uniform", "nrow"), value = 1)
 }
 \arguments{
 \item{x}{a list of matrices to be preprocessed. The rows are variables and columns are observations}
@@ -24,6 +24,12 @@ a list of preprocess matrices has the same dimension as input x
 }
 \description{
 Internal function used to normalize a list of matrices passed into concordance analysis
+}
+\examples{
+data("NCI60_4arrays")
+v <- processOpt(NCI60_4arrays, option = "lambda1")
+
+processOpt(NCI60_4arrays, option = "inertia")
 }
 \author{
 Chen Meng
