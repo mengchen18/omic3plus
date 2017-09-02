@@ -15,12 +15,15 @@
 #' @keywords internal
 #' @export
 #' @examples 
+#' data("NCI60_4arrays")
+#' v <- processOpt(NCI60_4arrays, option = "lambda1")
 #' 
+#' processOpt(NCI60_4arrays, option = "inertia")
 
 processOpt <- 
-function(x, center=TRUE, scale=FALSE, option = c("lambda1", "inertia", "uniform"), value = 1) {
+function(x, center=TRUE, scale=FALSE, option = c("lambda1", "inertia", "uniform", "nrow"), value = 1) {
   
-  opt <- match.arg(option, c("lambda1", "inertia", "uniform"))  
+  opt <- match.arg(option, c("lambda1", "inertia", "uniform", "nrow"))
   
   if (is.null(names(x)))
     names(x) <- paste("data", 1:length(x), sep = "_")
@@ -32,12 +35,11 @@ function(x, center=TRUE, scale=FALSE, option = c("lambda1", "inertia", "uniform"
     w <- sapply(x, function(xx) value/sqrt(sum(xx^2)))
   } else if (opt == "uniform") {
     w <- rep(1, length(x))
+  } else if (opt == "uniform") {
+    w <- sapply(x, function(xx) value/sqrt(nrow(xx)*length(x)))
   }
   mapply(SIMPLIFY = FALSE, function(xx, ww) xx*ww, xx=x, ww=w)
 }
 
 
-data("NCI60_4arrays")
-v <- processOpt(NCI60_4arrays, option = "lambda1")
-processOpt(NCI60_4arrays, option = "inertia")
 

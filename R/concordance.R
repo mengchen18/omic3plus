@@ -21,6 +21,7 @@ concord <- function(x, y, ncomp=2, dmod = 1, center = TRUE, scale = FALSE, optio
                     kx = "all", ky = "all", wx = 1, wy = 1, pos = FALSE, verbose = TRUE) {
 
   option <- match.arg(option, c("uniform", "lambda1", "inertia"))
+  call <- match.call()
   if (kx == "all") kx <- Inf
   if (ky == "all") ky <- Inf
   
@@ -38,10 +39,11 @@ concord <- function(x, y, ncomp=2, dmod = 1, center = TRUE, scale = FALSE, optio
   
   Ynorm <- scale(t(y), center = center, scale = scale)
   
-  val <- switch(option, 
-                "uniform" = 1, 
+  val <- switch(option,
+                "uniform" = 1,
                 "lambda1" = svd(Ynorm)$d[1],
-                "inertia" = sum(Ynorm^2))
+                "inertia" = sqrt(sum(Ynorm^2)), 
+                "nrow" = sqrt(nrow(y)))
   
   Xnorm <- processOpt(x, center = center, scale = scale, option = option, value = val)
   
@@ -116,7 +118,8 @@ concord <- function(x, y, ncomp=2, dmod = 1, center = TRUE, scale = FALSE, optio
        score.x.index = i.sample,
        var = var,
        norm.y = Ynorm.o,
-       norm.x = Xnorm.o)
+       norm.x = Xnorm.o, 
+       call = call)
 }
 
 
