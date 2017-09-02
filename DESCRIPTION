@@ -1,0 +1,22 @@
+Package: omic3plus
+Type: Package
+Title: Different methods for the integrative analysis multiple omics data
+Version: 0.1.0
+Date: 2017-09-01
+Author: Chen Meng
+Maintainer: Chen Meng <mengchen18@gmail.com>
+Description: Now only include the concordance analysis. In the future, the
+    package will replace bioconductor package "omicade4" and "mogsa".
+License: GPL-2
+Depends:
+    R (>= 3.2.0)
+Imports:
+    corpcor
+VignetteBuilder: knitr
+Suggests:
+    BiocStyle,
+    knitr
+biocViews: GeneExpression, PrincipalComponent, StatisticalMethod, Clustering,
+    Software
+NeedsCompilation: no
+RoxygenNote: 5.0.1
