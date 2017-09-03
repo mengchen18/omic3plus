@@ -8,7 +8,7 @@ processOpt(x, center = TRUE, scale = FALSE, option = c("lambda1",
   "inertia", "uniform", "nrow"), value = 1)
 }
 \arguments{
-\item{x}{a list of matrices to be preprocessed. The rows are variables and columns are observations}
+\item{x}{a list of matrices to be preprocessed. The columns are variables and rows are observations}
 
 \item{center}{if the variables should be centered}
 
@@ -27,9 +27,9 @@ Internal function used to normalize a list of matrices passed into concordance a
 }
 \examples{
 data("NCI60_4arrays")
-v <- processOpt(NCI60_4arrays, option = "lambda1")
+dat <- lapply(NCI60_4arrays, t)
+v <- processOpt(dat, option = "lambda1")
 
-processOpt(NCI60_4arrays, option = "inertia")
 }
 \author{
 Chen Meng

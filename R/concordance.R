@@ -44,10 +44,9 @@ concord <- function(x, y, ncomp=2, dmod = 1, center = TRUE, scale = FALSE, optio
                 "lambda1" = svd(Ynorm)$d[1],
                 "inertia" = sqrt(sum(Ynorm^2)), 
                 "nrow" = sqrt(nrow(y)))
-  
-  Xnorm <- processOpt(x, center = center, scale = scale, option = option, value = val)
-  
-  Xnorm <- lapply(Xnorm, t)
+
+  Xnorm <- lapply(x, t)  
+  Xnorm <- processOpt(Xnorm, center = center, scale = scale, option = option, value = val)
   Xcat <- do.call("cbind", Xnorm)
   Ynorm.o <- Ynorm
   Xnorm.o <- Xnorm

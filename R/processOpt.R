@@ -2,7 +2,7 @@
 #' 
 #' @description Internal function used to normalize a list of matrices passed into concordance analysis
 #' 
-#' @param x a list of matrices to be preprocessed. The rows are variables and columns are observations
+#' @param x a list of matrices to be preprocessed. The columns are variables and rows are observations
 #' @param center if the variables should be centered
 #' @param scale if the variables should be scaled
 #' @param option options for normalizing matrices, possible value are "lambda1", "inertia", "uniform", "nrow"
@@ -16,9 +16,9 @@
 #' @export
 #' @examples 
 #' data("NCI60_4arrays")
-#' v <- processOpt(NCI60_4arrays, option = "lambda1")
+#' dat <- lapply(NCI60_4arrays, t)
+#' v <- processOpt(dat, option = "lambda1")
 #' 
-#' processOpt(NCI60_4arrays, option = "inertia")
 
 processOpt <- 
 function(x, center=TRUE, scale=FALSE, option = c("lambda1", "inertia", "uniform", "nrow"), value = 1) {
@@ -36,7 +36,7 @@ function(x, center=TRUE, scale=FALSE, option = c("lambda1", "inertia", "uniform"
   } else if (opt == "uniform") {
     w <- rep(1, length(x))
   } else if (opt == "nrow") {
-    w <- sapply(x, function(xx) value/sqrt(nrow(xx)*length(x)))
+    w <- sapply(x, function(xx) value/sqrt(ncol(xx)*length(x)))
   }
   mapply(SIMPLIFY = FALSE, function(xx, ww) xx*ww, xx=x, ww=w)
 }
