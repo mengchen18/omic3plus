@@ -7,7 +7,7 @@
 #' @export
 
 
-predict.concordance <- function(object, newdata) {
+predictConcordance <- function(object, newdata) {
   xcat <- do.call(rbind, x)
   preds <- crossprod(xcat, res$loading.x)
   tcrossprod(res$loading.y , preds)
