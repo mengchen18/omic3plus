@@ -20,7 +20,7 @@
 concord <- function(x, y, ncomp=2, dmod = 1, center = TRUE, scale = FALSE, option = "uniform", 
                     kx = "all", ky = "all", wx = 1, wy = 1, pos = FALSE, verbose = TRUE) {
 
-  option <- match.arg(option, c("uniform", "lambda1", "inertia"))
+  option <- match.arg(option, c("uniform", "lambda1", "inertia", "nrow"))
   call <- match.call()
   if (kx == "all") kx <- Inf
   if (ky == "all") ky <- Inf

@@ -19,4 +19,3 @@ Normalized a vector or matrix with 1 row/column to unit length
 Chen Meng
 }
 \keyword{internal}
-

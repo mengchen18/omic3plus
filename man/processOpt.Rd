@@ -14,7 +14,7 @@ processOpt(x, center = TRUE, scale = FALSE, option = c("lambda1",
 
 \item{scale}{if the variables should be scaled}
 
-\item{option}{options for normalizing matrices, possible value are "lambda1", "inertia", "uniform"}
+\item{option}{options for normalizing matrices, possible value are "lambda1", "inertia", "uniform", "nrow"}
 
 \item{value}{Only used if option is "lambda1" or inertia, the matrix are weighted by value/lambda1 
 (or inertia)}
@@ -35,4 +35,3 @@ processOpt(NCI60_4arrays, option = "inertia")
 Chen Meng
 }
 \keyword{internal}
-

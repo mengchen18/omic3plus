@@ -5,7 +5,7 @@
 #' @param x a list of matrices to be preprocessed. The rows are variables and columns are observations
 #' @param center if the variables should be centered
 #' @param scale if the variables should be scaled
-#' @param option options for normalizing matrices, possible value are "lambda1", "inertia", "uniform"
+#' @param option options for normalizing matrices, possible value are "lambda1", "inertia", "uniform", "nrow"
 #' @param value Only used if option is "lambda1" or inertia, the matrix are weighted by value/lambda1 
 #' (or inertia)
 #' 

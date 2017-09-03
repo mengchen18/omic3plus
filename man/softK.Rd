@@ -33,4 +33,3 @@ softK(1:5, w=c(2.5, 2.5, 2.5, 1, 1), k = 3)
 Chen Meng
 }
 \keyword{internal}
-

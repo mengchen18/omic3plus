@@ -42,4 +42,3 @@ concordance analysis
 \author{
 Chen Meng
 }
-

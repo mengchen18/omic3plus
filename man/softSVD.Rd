@@ -107,15 +107,14 @@ layout(matrix(1:2, 1, 2))
 hist(d[i1 & !i2, ], main = "No weight")
 hist(d[i2 & !i1, ], main = "Weight")
 }
-\author{
-Chen Meng
-}
 \seealso{
 \code{\link{svd}}
+}
+\author{
+Chen Meng
 }
 \keyword{internal}
 \keyword{non-negative}
 \keyword{penalized}
 \keyword{svd}
 \keyword{svd,}
-

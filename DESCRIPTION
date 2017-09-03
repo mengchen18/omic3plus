@@ -19,4 +19,4 @@ Suggests:
 biocViews: GeneExpression, PrincipalComponent, StatisticalMethod, Clustering,
     Software
 NeedsCompilation: no
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

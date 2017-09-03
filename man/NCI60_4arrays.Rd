@@ -12,4 +12,3 @@ NCI60_4arrays
 A list of data.frame store the gene expression of NCI60 cell lines.
 }
 \keyword{datasets}
-
