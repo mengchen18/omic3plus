@@ -1,22 +1,16 @@
+#' @title predict y using result of concordance analysis
+#' @description predict y using the result of concordance analysis
+#' @param object an object returned by concord
+#' @param newdata new x
+#' @return the predicted y matrix
+#' @author Chen Meng
+#' @export
 
 
-predict.concordance <- function(res, x) {
-  Xnorm <- lapply(x, function(x) scale(t(x), center = TRUE, scale = TRUE))
-  
-  
-  Ynorm <- scale(t(y), center = center, scale = scale)
-  
-  val <- switch(option, 
-                "uniform" = 1, 
-                "lambda1" = svd(Ynorm)$d[1],
-                "inertia" = sum(Ynorm^2))
-  
-  Xnorm <- processOpt(x, center = center, scale = scale, option = option, value = val)
-  
-  res <- r1
-  
+predict.concordance <- function(object, newdata) {
   xcat <- do.call(rbind, x)
   preds <- crossprod(xcat, res$loading.x)
-  l <- tcrossprod(res$loading.y , preds)
+  tcrossprod(res$loading.y , preds)
 }
+
 

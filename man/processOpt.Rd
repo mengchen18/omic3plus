@@ -5,7 +5,7 @@
 \title{Preprocess a list of matrices for concordance analysis}
 \usage{
 processOpt(x, center = TRUE, scale = FALSE, option = c("lambda1",
-  "inertia", "uniform", "nrow"), value = 1)
+  "inertia", "uniform", "nk"), value = 1, kx = NULL)
 }
 \arguments{
 \item{x}{a list of matrices to be preprocessed. The columns are variables and rows are observations}
@@ -14,9 +14,11 @@ processOpt(x, center = TRUE, scale = FALSE, option = c("lambda1",
 
 \item{scale}{if the variables should be scaled}
 
-\item{option}{options for normalizing matrices, possible value are "lambda1", "inertia", "uniform", "nrow"}
+\item{option}{options for normalizing matrices, possible value are "lambda1", "inertia", "uniform", "nk"}
 
-\item{value}{Only used if option is "lambda1" or inertia, the matrix are weighted by value/lambda1 
+\item{value}{Only used if option is "lambda1" or inertia, the matrix are weighted by value/lambda1}
+
+\item{kx}{used if option = "nk", normalize according to the number of kept variables
 (or inertia)}
 }
 \value{

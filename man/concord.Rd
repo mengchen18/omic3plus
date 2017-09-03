@@ -24,9 +24,11 @@ has to be matched.}
 
 \item{option}{the option for normalizing matrix}
 
-\item{kx}{the}
+\item{kx}{the number (if it is an integer > 1) or the proportion (if 0 < ky < 1) of kept variables in x. It should be
+a numeric value.}
 
-\item{ky}{the number (if it is an integer > 1) or the proportion (if 0 < ky < 1) of}
+\item{ky}{the number (if it is an integer > 1) or the proportion (if 0 < ky < 1) of kept variables in y. It should be 
+a numeric value.}
 
 \item{wx}{weight for the rows of x}
 

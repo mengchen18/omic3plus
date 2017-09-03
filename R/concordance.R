@@ -7,8 +7,10 @@
 #' @param center logical values, whether the variables should be centered
 #' @param scale logical values, whether the variables should be scaled
 #' @param option the option for normalizing matrix
-#' @param kx the 
-#' @param ky the number (if it is an integer > 1) or the proportion (if 0 < ky < 1) of 
+#' @param kx the number (if it is an integer > 1) or the proportion (if 0 < ky < 1) of kept variables in x. It should be
+#'   a numeric value.
+#' @param ky the number (if it is an integer > 1) or the proportion (if 0 < ky < 1) of kept variables in y. It should be 
+#'   a numeric value. 
 #' @param wx weight for the rows of x
 #' @param wy weight for the rows of y
 #' @param pos logical value, whether only non-negative loadings retained
@@ -20,10 +22,14 @@
 concord <- function(x, y, ncomp=2, dmod = 1, center = TRUE, scale = FALSE, option = "uniform", 
                     kx = "all", ky = "all", wx = 1, wy = 1, pos = FALSE, verbose = TRUE) {
 
-  option <- match.arg(option, c("uniform", "lambda1", "inertia", "nrow"))
+  option <- match.arg(option, c("uniform", "lambda1", "inertia", "nk"))
   call <- match.call()
   if (kx == "all") kx <- Inf
   if (ky == "all") ky <- Inf
+  if (kx > 0 & kx < 1) 
+    kx <- round(sum(sapply(x, nrow)) * kx)
+  if (ky > 0 & ky < 1)
+    ky <- round(nrow(y) * ky)
   
   nmat <- length(x)
   if (is.null(names(x)))
@@ -39,14 +45,15 @@ concord <- function(x, y, ncomp=2, dmod = 1, center = TRUE, scale = FALSE, optio
   
   Ynorm <- scale(t(y), center = center, scale = scale)
   
+  ##
   val <- switch(option,
                 "uniform" = 1,
                 "lambda1" = svd(Ynorm)$d[1],
                 "inertia" = sqrt(sum(Ynorm^2)), 
-                "nrow" = sqrt(nrow(y)))
+                "nk" = sqrt(min(nrow(y), ky)))
 
   Xnorm <- lapply(x, t)  
-  Xnorm <- processOpt(Xnorm, center = center, scale = scale, option = option, value = val)
+  Xnorm <- processOpt(Xnorm, center = center, scale = scale, option = option, value = val, kx = kx)
   Xcat <- do.call("cbind", Xnorm)
   Ynorm.o <- Ynorm
   Xnorm.o <- Xnorm
