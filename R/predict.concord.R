@@ -8,9 +8,9 @@
 
 
 predictConcordance <- function(object, newdata) {
-  xcat <- do.call(rbind, x)
-  preds <- crossprod(xcat, res$loading.x)
-  tcrossprod(res$loading.y , preds)
+  xcat <- do.call(rbind, newdata)
+  preds <- crossprod(xcat, object$loading.x)
+  tcrossprod(object$loading.y, preds)
 }
 
 
