@@ -21,7 +21,7 @@
 
 concord <- function(x, y, ncomp=2, dmod = 1, center = TRUE, scale = FALSE, option = "uniform", 
                     kx = "all", ky = "all", wx = 1, wy = 1, pos = FALSE, verbose = TRUE) {
-
+  
   option <- match.arg(option, c("uniform", "lambda1", "inertia", "nk"))
   call <- match.call()
   if (kx == "all") kx <- Inf
@@ -51,7 +51,7 @@ concord <- function(x, y, ncomp=2, dmod = 1, center = TRUE, scale = FALSE, optio
                 "lambda1" = svd(Ynorm)$d[1],
                 "inertia" = sqrt(sum(Ynorm^2)), 
                 "nk" = sqrt(min(nrow(y), ky)))
-
+  
   Xnorm <- lapply(x, t)  
   Xnorm <- processOpt(Xnorm, center = center, scale = scale, option = option, value = val, kx = kx)
   Xcat <- do.call("cbind", Xnorm)
@@ -66,7 +66,7 @@ concord <- function(x, y, ncomp=2, dmod = 1, center = TRUE, scale = FALSE, optio
       S <- t(Ynorm) %*% Xcat
     if (f == 1)
       S.o <- S
-
+    
     decom <- softSVD(x = S, nf = 1, kv = kx, ku = ky, wv = wx, wu = wy, 
                      pos = pos, maxiter = 1000, verbose = verbose)
     
@@ -111,6 +111,13 @@ concord <- function(x, y, ncomp=2, dmod = 1, center = TRUE, scale = FALSE, optio
       stop("unknown deflation mode")
     }
     
+    # prepare output
+    xd <- lapply(names(x), function(it) {
+      t(Xcat[, i.feature == it])
+    })
+    names(xd) <- names(x)
+    yd <- t(Ynorm)
+    
   }
   
   rownames(loading) <- colnames(Xcat)
@@ -123,9 +130,8 @@ concord <- function(x, y, ncomp=2, dmod = 1, center = TRUE, scale = FALSE, optio
        loading.x.index = i.feature, 
        score.x.index = i.sample,
        var = var,
-       norm.y = Ynorm.o,
-       norm.x = Xnorm.o, 
+       normed = list(y = Ynorm.o, x = Xnorm.o), 
+       deflated = list(y = yd, x = xd), 
        call = call)
 }
-
 
