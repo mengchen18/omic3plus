@@ -18,6 +18,24 @@
 #' 
 #' @author Chen Meng
 #' @export
+#' @examples 
+#' library(omic3plus)
+#' data("NCI60_4arrays")
+#' 
+#' y <- as.matrix(NCI60_4arrays$agilent)
+#' x <- lapply(NCI60_4arrays[2:4], as.matrix)
+#' 
+#' # no sparsity
+#' con1 <- concord(x, y, ncomp = 3)
+#' 
+#' # sparsity on rows of x, select 10% genes
+#' con <- concord(x, y, ncomp = 3, kx = 0.1)
+#' 
+#' # sparsity on rows of both x and y, select 10% genes
+#' con <- concord(x, y, ncomp = 3, kx = 0.1, ky = 0.1, option = "nk")
+#' plot(con$score.x[, 1], con$score.y[, 1])
+#' abline(a = 0, b = 1)
+
 
 concord <- function(x, y, ncomp=2, dmod = 1, center = TRUE, scale = FALSE, option = "uniform", 
                     kx = "all", ky = "all", wx = 1, wy = 1, pos = FALSE, verbose = TRUE) {
@@ -108,7 +126,7 @@ concord <- function(x, y, ncomp=2, dmod = 1, center = TRUE, scale = FALSE, optio
       Ynorm <- Ynorm - t(t(Ynorm) %*% tcrossprod(normvec(yb)))
       Xcat <- Xcat - t(t(Xcat) %*% tcrossprod(normvec(xa)))
     } else if (dmod == 0) {
-      cat("no deflation")
+      cat("no deflation\n")
     } else {
       stop("unknown deflation mode")
     }

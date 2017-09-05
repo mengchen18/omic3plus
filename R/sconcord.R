@@ -43,19 +43,19 @@ sconcord <- function(x, y, opt.kx, opt.ky, fold = 5, ncores = 1, ncomp = 1,
   opt <- list()
   for (i in 1:ncomp) {
     cat(paste("calculating component", i, "...\n"))
-    cat("cross validation ...")
+    cat("cross validation ...\n")
     ctv <- cv.concord(x = x, y = y, fold = fold, opt.kx = opt.kx, opt.ky = opt.ky, 
-                      ncores = ncores, 
+                      ncores = ncores, ncomp = 1,
                       center = center, scale = scale, option = option, 
                       dmod = 0, pos = pos, wx = wx, wy = wy)
     
     okx <- opt.kx[which.max(rowMedians(ctv$cvx))]
     oky <- opt.ky[which.max(rowMedians(ctv$cvy))]
-    cat("fit model ...")
+    cat("fit model ...\n")
     res <- concord(x, y, ncomp = 1, kx = okx, ky = oky, verbose = FALSE, 
                    center = center, scale = scale, option = option, 
                    dmod = dmod, pos = pos, wx = wx, wy = wy)
-    enter <- FALSE
+    center <- FALSE
     scale <- FALSE
     option <- "uniform"
     

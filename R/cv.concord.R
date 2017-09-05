@@ -12,7 +12,8 @@
 #' @param center see \code{\link{concord}}
 #' @param scale see \code{\link{concord}}
 #' @param option see \code{\link{concord}}
-#' @param ... other arguments to be passed to \code{\link{concord}}, kx and ky are not valid.
+#' @param ... other arguments to be passed to \code{\link{concord}}, could be \code{dmod}, 
+#'   \code{pos}, \code{wx}, \code{wy}
 #' 
 #' @author Chen Meng
 #' @return A list of two data.frames and two matrix. One for x and one for y. Each data.frame has three columns:
@@ -25,7 +26,7 @@
 #' @examples
 #'  #example
 
-cv.concord <- function(x, y, fold = 7, opt.kx = seq(0.1, 0.6, length.out = 10), 
+cv.concord <- function(x, y, fold = 5, opt.kx = seq(0.1, 0.6, length.out = 10), 
            opt.ky = seq(0.1, 0.9, length.out = 10), ncores = 1, ncomp = 1, 
            center = TRUE, scale = FALSE, option = "uniform", ...) {
   

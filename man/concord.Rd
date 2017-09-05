@@ -41,6 +41,24 @@ a numeric value.}
 \description{
 concordance analysis
 }
+\examples{
+library(omic3plus)
+data("NCI60_4arrays")
+
+y <- as.matrix(NCI60_4arrays$agilent)
+x <- lapply(NCI60_4arrays[2:4], as.matrix)
+
+# no sparsity
+con1 <- concord(x, y, ncomp = 3)
+
+# sparsity on rows of x, select 10\% genes
+con <- concord(x, y, ncomp = 3, kx = 0.1)
+
+# sparsity on rows of both x and y, select 10\% genes
+con <- concord(x, y, ncomp = 3, kx = 0.1, ky = 0.1, option = "nk")
+plot(con$score.x[, 1], con$score.y[, 1])
+abline(a = 0, b = 1)
+}
 \author{
 Chen Meng
 }
