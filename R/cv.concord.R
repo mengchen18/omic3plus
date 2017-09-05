@@ -7,20 +7,21 @@
 #' @param opt.kx a numeric vector, candidate kx to be evaluated
 #' @param opt.ky a numeric vector, candidate ky to be evaluated
 #' @param fold the number of fold for cross validation
+#' @param ncores the number of cores to be used, passed to \code{mclapply} in "parallel" package.
 #' @param ... other arguments to be passed to concord
 #' 
 #' @author Chen Meng
 #' @return A list of two data.frames. One for x and one for y. Each data.frame has three columns:
 #'   kx/ky (input values of opt.kx/opt.ky), mean - the cv (cross-validation) mean, sd - the sd
 #'   of cv-error 
-#' 
+#' @importFrom parallel mclapply
 #' @export
 #' @importFrom matrixStats rowSds
 #' @examples
 #' 
 
 cv.concord <- function(x, y, fold = 7, opt.kx = seq(0.1, 0.6, length.out = 10), 
-           opt.ky = seq(0.1, 0.9, length.out = 10), ...) {
+           opt.ky = seq(0.1, 0.9, length.out = 10), ncores = 1, ...) {
   
   r <- concord(x, y, ncomp = 1, ...)
   nobs <- ncol(y)
@@ -29,7 +30,8 @@ cv.concord <- function(x, y, fold = 7, opt.kx = seq(0.1, 0.6, length.out = 10),
   m <- replicate(ceiling(nobs/fold), 1:fold)
   m <- c(apply(m, 2, sample))[1:nobs]
   #
-  cv <- lapply(unique(m), function(i) {
+  cv <- mclapply(unique(m), mc.cores = ncores, function(i) {
+    cat(paste("Validating fold label", i, "...\n"))
     ii <- m == i
     xn <- lapply(r$normed$x, t)
     yn <- t(r$normed$y)
@@ -38,11 +40,13 @@ cv.concord <- function(x, y, fold = 7, opt.kx = seq(0.1, 0.6, length.out = 10),
     xt <- lapply(xn, function(mat) mat[, !ii])
     yt <- yn[, !ii]
     cvx <- sapply(opt.kx, function(kk) {
-      r0 <- concord(xx, yy, ncomp = 1, dmod = 1, option = "uniform", center = FALSE, scale = FALSE, kx = kk)
+      cat(paste("    kx =", kk, "...\n"))
+      r0 <- concord(xx, yy, ncomp = 1, dmod = 1, option = "uniform", center = FALSE, scale = FALSE, kx = kk, verbose = FALSE)
       sum((yt - predictConcordance(r0, xt))^2)
     })
     cvy <- sapply(opt.ky, function(kk) {
-      r0 <- concord(xx, yy, ncomp = 1, dmod = 1, option = "uniform", center = FALSE, scale = FALSE, ky = kk)
+      cat(paste("    ky =", kk, "...\n"))
+      r0 <- concord(xx, yy, ncomp = 1, dmod = 1, option = "uniform", center = FALSE, scale = FALSE, ky = kk, verbose = FALSE)
       sum((yt - predictConcordance(r0, xt))^2)
     })
     list(cvx = cvx, cvy = cvy)

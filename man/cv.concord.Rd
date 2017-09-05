@@ -5,7 +5,7 @@
 \title{Cross-validation for concordance analysis}
 \usage{
 cv.concord(x, y, fold = 7, opt.kx = seq(0.1, 0.6, length.out = 10),
-  opt.ky = seq(0.1, 0.9, length.out = 10), ...)
+  opt.ky = seq(0.1, 0.9, length.out = 10), ncores = 1, ...)
 }
 \arguments{
 \item{x}{A list of predictive matrices}
@@ -17,6 +17,8 @@ cv.concord(x, y, fold = 7, opt.kx = seq(0.1, 0.6, length.out = 10),
 \item{opt.kx}{a numeric vector, candidate kx to be evaluated}
 
 \item{opt.ky}{a numeric vector, candidate ky to be evaluated}
+
+\item{ncores}{the number of cores to be used, passed to \code{mclapply} in "parallel" package.}
 
 \item{...}{other arguments to be passed to concord}
 }

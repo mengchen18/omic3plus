@@ -12,7 +12,8 @@ Depends:
     R (>= 3.2.0)
 Imports:
     corpcor,
-    matrixStats
+    matrixStats,
+    parallel
 VignetteBuilder: knitr
 Suggests:
     BiocStyle,
