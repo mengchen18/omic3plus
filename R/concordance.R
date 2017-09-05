@@ -61,14 +61,15 @@ concord <- function(x, y, ncomp=2, dmod = 1, center = TRUE, scale = FALSE, optio
   ys <- yloading <- gls <- bls <- loading <- var <- c()
   
   for (f in 1:ncomp) {
-    print(f)
+    if (verbose)
+      cat(paste("calculating component", f, "...\n"))
     if (f == 1 || dmod != 1 )
       S <- t(Ynorm) %*% Xcat
     if (f == 1)
       S.o <- S
     
     decom <- softSVD(x = S, nf = 1, kv = kx, ku = ky, wv = wx, wu = wy, 
-                     pos = pos, maxiter = 1000, verbose = verbose)
+                     pos = pos, maxiter = 1000, verbose = FALSE)
     
     xa <- Xcat %*% decom$v[, 1]
     yb <- Ynorm %*% decom$u[, 1]

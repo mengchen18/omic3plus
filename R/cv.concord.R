@@ -31,8 +31,8 @@ cv.concord <- function(x, y, fold = 7, opt.kx = seq(0.1, 0.6, length.out = 10),
   #
   cv <- lapply(unique(m), function(i) {
     ii <- m == i
-    xn <- lapply(r$norm.x, t)
-    yn <- t(r$norm.y)
+    xn <- lapply(r$normed$x, t)
+    yn <- t(r$normed$y)
     xx <- lapply(xn, function(mat) mat[, ii])
     yy <- yn[, ii]
     xt <- lapply(xn, function(mat) mat[, !ii])
