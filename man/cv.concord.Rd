@@ -5,7 +5,8 @@
 \title{Cross-validation for concordance analysis}
 \usage{
 cv.concord(x, y, fold = 7, opt.kx = seq(0.1, 0.6, length.out = 10),
-  opt.ky = seq(0.1, 0.9, length.out = 10), ncores = 1, ...)
+  opt.ky = seq(0.1, 0.9, length.out = 10), ncores = 1, ncomp = 1,
+  center = TRUE, scale = FALSE, option = "uniform", ...)
 }
 \arguments{
 \item{x}{A list of predictive matrices}
@@ -20,10 +21,18 @@ cv.concord(x, y, fold = 7, opt.kx = seq(0.1, 0.6, length.out = 10),
 
 \item{ncores}{the number of cores to be used, passed to \code{mclapply} in "parallel" package.}
 
-\item{...}{other arguments to be passed to concord}
+\item{ncomp}{the number of components}
+
+\item{center}{see \code{\link{concord}}}
+
+\item{scale}{see \code{\link{concord}}}
+
+\item{option}{see \code{\link{concord}}}
+
+\item{...}{other arguments to be passed to \code{\link{concord}}, kx and ky are not valid.}
 }
 \value{
-A list of two data.frames. One for x and one for y. Each data.frame has three columns:
+A list of two data.frames and two matrix. One for x and one for y. Each data.frame has three columns:
   kx/ky (input values of opt.kx/opt.ky), mean - the cv (cross-validation) mean, sd - the sd
   of cv-error
 }
@@ -31,7 +40,7 @@ A list of two data.frames. One for x and one for y. Each data.frame has three co
 Cross-validation for concordance analysis to find optimal sparsity level of x and y
 }
 \examples{
-
+ #example
 }
 \author{
 Chen Meng

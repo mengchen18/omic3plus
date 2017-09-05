@@ -107,6 +107,8 @@ concord <- function(x, y, ncomp=2, dmod = 1, center = TRUE, scale = FALSE, optio
       # defaltion X and Y using normed score of Y, not suggested
       Ynorm <- Ynorm - t(t(Ynorm) %*% tcrossprod(normvec(yb)))
       Xcat <- Xcat - t(t(Xcat) %*% tcrossprod(normvec(xa)))
+    } else if (dmod == 0) {
+      cat("no deflation")
     } else {
       stop("unknown deflation mode")
     }
