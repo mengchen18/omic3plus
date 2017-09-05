@@ -90,9 +90,9 @@ concord <- function(x, y, ncomp=2, dmod = 1, center = TRUE, scale = FALSE, optio
     if (dmod == 1) {
       # deflation of S, crossprod matrix, the save with SVD directly
       # the classical concordance approach
-      S <- S - tcrossprod(decom$u[, 1]) %*% S
+      # S <- S - tcrossprod(decom$u[, 1]) %*% S
       # or the same 
-      # Ynorm <- Ynorm - Ynorm %*% tcrossprod(decom$u[, 1])
+      Ynorm <- Ynorm - Ynorm %*% tcrossprod(decom$u[, 1])
     } else if (dmod == 2) {
       # deflaltion X using loading of X, as Lafosse & Hanafi 1997
       # but not possible to incorporate with sparse factor
