@@ -63,10 +63,9 @@ concord <- function(x, y, ncomp=2, dmod = 1, center = TRUE, scale = FALSE, optio
   for (f in 1:ncomp) {
     if (verbose)
       cat(paste("calculating component", f, "...\n"))
-    if (f == 1 || dmod != 1 )
-      S <- t(Ynorm) %*% Xcat
-    if (f == 1)
-      S.o <- S
+    # if (f == 1 || dmod != 1 )
+    S <- t(Ynorm) %*% Xcat
+
     
     decom <- softSVD(x = S, nf = 1, kv = kx, ku = ky, wv = wx, wu = wy, 
                      pos = pos, maxiter = 1000, verbose = FALSE)

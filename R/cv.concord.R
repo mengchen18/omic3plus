@@ -23,7 +23,7 @@
 cv.concord <- function(x, y, fold = 7, opt.kx = seq(0.1, 0.6, length.out = 10), 
            opt.ky = seq(0.1, 0.9, length.out = 10), ncores = 1, ...) {
   
-  r <- concord(x, y, ncomp = 1, ...)
+  r <- concord(x, y, ncomp = 1, verbose = FALSE, ...)
   nobs <- ncol(y)
   # 
   v <- sort(r$score.y[, 1])
