@@ -2,6 +2,7 @@
 
 export(concord)
 export(cv.concord)
+export(cv.softSVD)
 export(normvec)
 export(predictConcordance)
 export(processOpt)
