@@ -15,6 +15,13 @@
 #' @param wy weight for the rows of y
 #' @param pos logical value, whether only non-negative loadings retained
 #' @param verbose if the process of calculation should be printed
+#' @param ncores number of cores to be used, passed to \code{\link{mclapply}}
+#' @param fold the number of fold to be used in cross-validation, only used if kx or ky is a vector
+#' @param nstart how many time the k-fold cross validation should be done
+#' @param seed set seed for random number generation
+#' @param loorss if the Leave-one-out procedure should be used in matrix reconstruction
+#' @param scan If the PRESS plot should be shown and used to determine the optimal k in CV
+#' @param nsd the the n*sd for selecting k automatically
 #' 
 #' @author Chen Meng
 #' @export
@@ -38,12 +45,16 @@
 
 
 concord <- function(x, y, ncomp=2, dmod = 1, center = TRUE, scale = FALSE, option = "uniform", 
-                    kx = "all", ky = "all", wx = 1, wy = 1, pos = FALSE, verbose = TRUE) {
+                    kx = "all", ky = "all", wx = 1, wy = 1, pos = FALSE, verbose = TRUE,
+                    # for cv
+                    ncores = 1, fold = 5, nstart = 1, seed = NULL, loorss = FALSE, 
+                    scan = TRUE, nsd = 2) {
   
   option <- match.arg(option, c("uniform", "lambda1", "inertia", "nk"))
   call <- match.call()
-  if (kx == "all") kx <- Inf
-  if (ky == "all") ky <- Inf
+  #
+  if (kx[1] == "all") kx <- Inf
+  if (ky[1] == "all") ky <- Inf
   if (kx > 0 & kx < 1) 
     kx <- round(sum(sapply(x, nrow)) * kx)
   if (ky > 0 & ky < 1)
@@ -81,11 +92,14 @@ concord <- function(x, y, ncomp=2, dmod = 1, center = TRUE, scale = FALSE, optio
   for (f in 1:ncomp) {
     if (verbose)
       cat(paste("calculating component", f, "...\n"))
-    # if (f == 1 || dmod != 1 )
-    S <- t(Ynorm) %*% Xcat
-
     
-    decom <- softSVD(x = S, nf = 1, kv = kx, ku = ky, wv = wx, wu = wy, 
+    S <- t(Ynorm) %*% Xcat
+    #  cv.softSVD
+    ok <- cv.softSVD(S, nf = 1, kv.opt = kx, ku.opt = ky, wv = wx, wu = wy, pos = pos, 
+                     maxiter = 1000, verbose = TRUE, ncores = ncores, fold = fold, 
+                     nstart = nstart, seed = seed, loorss = loorss, scan = scan, nsd = nsd)
+    
+    decom <- softSVD(x = S, nf = 1, kv = ok$sel.v, ku = ok$sel.u, wv = wx, wu = wy, 
                      pos = pos, maxiter = 1000, verbose = FALSE)
     
     xa <- Xcat %*% decom$v[, 1]

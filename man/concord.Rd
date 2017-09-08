@@ -6,7 +6,8 @@
 \usage{
 concord(x, y, ncomp = 2, dmod = 1, center = TRUE, scale = FALSE,
   option = "uniform", kx = "all", ky = "all", wx = 1, wy = 1,
-  pos = FALSE, verbose = TRUE)
+  pos = FALSE, verbose = TRUE, ncores = 1, fold = 5, nstart = 1,
+  seed = NULL, loorss = FALSE, scan = TRUE, nsd = 2)
 }
 \arguments{
 \item{x}{a list of predictive matrices. The columns are observations, rows are varaibles. The columns (observations)
@@ -37,6 +38,20 @@ a numeric value.}
 \item{pos}{logical value, whether only non-negative loadings retained}
 
 \item{verbose}{if the process of calculation should be printed}
+
+\item{ncores}{number of cores to be used, passed to \code{\link{mclapply}}}
+
+\item{fold}{the number of fold to be used in cross-validation, only used if kx or ky is a vector}
+
+\item{nstart}{how many time the k-fold cross validation should be done}
+
+\item{seed}{set seed for random number generation}
+
+\item{loorss}{if the Leave-one-out procedure should be used in matrix reconstruction}
+
+\item{scan}{If the PRESS plot should be shown and used to determine the optimal k in CV}
+
+\item{nsd}{the the n*sd for selecting k automatically}
 }
 \description{
 concordance analysis

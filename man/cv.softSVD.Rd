@@ -7,7 +7,8 @@
 cv.softSVD(x, nf = 1, kv.opt = c(0.3, 0.5, 0.8), ku.opt = c(0.3, 0.5,
   0.8), wv = 1, wu = 1, pos = FALSE, maxiter = 50,
   tol = sqrt(.Machine$double.eps), verbose = FALSE, ncores = 1,
-  fold = 5, nstart = 1, seed = NULL, loorss = FALSE)
+  fold = 5, nstart = 1, seed = NULL, loorss = FALSE, scan = FALSE,
+  nsd = 2)
 }
 \arguments{
 \item{x}{input matrix}
@@ -38,12 +39,18 @@ cv.softSVD(x, nf = 1, kv.opt = c(0.3, 0.5, 0.8), ku.opt = c(0.3, 0.5,
 
 \item{loorss}{if the Leave-one-out procedure should be used in matrix reconstruction}
 
+\item{scan}{if the sum of PRESS should be plotted}
+
+\item{nsd}{the n*sd for selecting k automatically}
+
 \item{maiter}{maximum number of iteration}
 }
 \value{
 list consist of two matrix. 
- - cvv - The PRESS for right singular vector
- - cvu - the PRESS for left singular vector
+ - cvv - The PRESS for right singular vector, mean and sd
+ - cvu - the PRESS for left singular vector, mean and sd
+ - sel.v - the selected v
+ - sel.u - the selected u
 }
 \description{
 This function use k-fold cross-valiation method to optimize the sparsity
@@ -60,7 +67,9 @@ mat <- noise1 \%*\% noise2
 dim(mat)
 
 cv <- cv.softSVD(x = mat, nf = 1, kv.opt = 1:10, ku.opt = 1:8)
-boxplot(cv$cvu)
-boxplot(cv$cvv)
+boxplot(cv$cvu$press)
+boxplot(cv$cvv$press)
+
+#' cv <- cv.softSVD(x = mat, nf = 1, kv.opt = 1:10, ku.opt = 1:8, scan = TRUE)
 }
 \keyword{internal}
