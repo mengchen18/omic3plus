@@ -147,8 +147,10 @@ cv.softSVD <- function(x, nf = 1, kv.opt = c(0.3, 0.5, 0.8), ku.opt = c(0.3, 0.5
       mtext(side = 3, text = kv.opt, at = xa)
       abline(v = sel.v, lty = 3, col = "green", lwd = 3)
       ii <- as.integer(readline("Select k for variables in x:"))
-      sel.v <- kv.opt[ii]
-      abline(v = ii, lty = 3, col = "red", lwd = 3)
+      if (!is.na(ii)) {
+        sel.v <- kv.opt[ii]
+        abline(v = ii, lty = 3, col = "red", lwd = 3)
+      }
     }
     
   }
@@ -175,8 +177,10 @@ cv.softSVD <- function(x, nf = 1, kv.opt = c(0.3, 0.5, 0.8), ku.opt = c(0.3, 0.5
       mtext(side = 3, text = ku.opt, at = xa)
       abline(v = sel.u, lty = 3, col = "green", lwd = 3)
       ii <- as.integer(readline("Select k for variables in y:"))
-      sel.u <- ku.opt[ii]
-      abline(v = ii, lty = 3, col = "red", lwd = 3)
+      if (!is.na(ii)) {
+        sel.u <- ku.opt[ii]
+        abline(v = ii, lty = 3, col = "red", lwd = 3)
+      }
     }
   }
     
