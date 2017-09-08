@@ -7,7 +7,7 @@
 #' @param wv weight for columns
 #' @param wu weight for rows
 #' @param pos whether retein non-negative results
-#' @param maiter maximum number of iteration
+#' @param maxiter maximum number of iteration
 #' @param tol convergence tolerance
 #' @param verbose if print the progress
 #' @param ncores the number of cores used, passed to mclapply

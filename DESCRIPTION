@@ -1,8 +1,8 @@
 Package: omic3plus
 Type: Package
 Title: Different methods for the integrative analysis multiple omics data
-Version: 0.1.1
-Date: 2017-09-03
+Version: 0.1.2
+Date: 2017-09-08
 Author: Chen Meng
 Maintainer: Chen Meng <mengchen18@gmail.com>
 Description: Now only include the concordance analysis. In the future, the

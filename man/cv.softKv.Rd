@@ -22,6 +22,8 @@ cv.softKv(x, nf = 1, kv.opt = c(0.3, 0.5, 0.8), wv = 1, wu = 1,
 
 \item{pos}{whether retein non-negative results}
 
+\item{maxiter}{maximum number of iteration}
+
 \item{tol}{convergence tolerance}
 
 \item{verbose}{if print the progress}
@@ -35,8 +37,6 @@ cv.softKv(x, nf = 1, kv.opt = c(0.3, 0.5, 0.8), wv = 1, wu = 1,
 \item{seed}{set seed}
 
 \item{loorss}{if the Leave-one-out procedure should be used in matrix reconstruction}
-
-\item{maiter}{maximum number of iteration}
 }
 \description{
 This function use k-fold cross-valiation method to optimize the sparsity
