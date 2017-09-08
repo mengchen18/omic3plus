@@ -27,7 +27,7 @@ cv.softKv <- function(x, nf = 1, kv.opt = c(0.3, 0.5, 0.8), wv = 1, wu = 1, pos 
   
   set.seed(NULL)
   
-  if (any(ikv <- kv.opt > nrow(x))) {
+  if (any(ikv <- kv.opt > ncol(x))) {
     cat("Some optional k exceed the dimenson of x, removed. ")
     kv.opt <- kv.opt[!ikv]
   }
