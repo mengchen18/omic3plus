@@ -8,6 +8,7 @@
 #' @param wu the weight for rows of of x
 #' @param pos Logical value, if only retain non-negative values in the 
 #' @param maxiter the maximum number of iteration
+#' @param init how to initialize the algorithm. if no sparsity, svd is fast.
 #' @param tol the tolerance of error
 #' @param verbose print progress of calulation
 #' @author Chen Meng
@@ -91,10 +92,15 @@
 #' hist(d[i2 & !i1, ], main = "Weight")
 
 softSVD <- function(x, nf = 1, kv = Inf, ku = Inf, wv = 1, wu = 1, pos = FALSE, 
+                    init = c("svd", "average")[2],
                     maxiter = 50, tol = sqrt(.Machine$double.eps), verbose = FALSE) {
   
-  regproj <- function(x, ku, kv, wu, wv, pos, maxiter) {
-    u <- fast.svd(x)$u[, 1, drop = FALSE]
+  init <- match.arg(init, c("svd", "average"))
+  
+  regproj <- function(x, ku, kv, wu, wv, pos, maxiter, init) {
+    u <- switch(init, 
+                "svd" = fast.svd(x)$u[, 1, drop = FALSE], 
+                "average" = rowSums(x))
     for (i in 1:maxiter) {
       v <- crossprod(x, u)
       v <- softK(v, kv, w = wv, pos = pos)
@@ -118,7 +124,7 @@ softSVD <- function(x, nf = 1, kv = Inf, ku = Inf, wv = 1, wu = 1, pos = FALSE,
   for (i in 1:nf) {
     if (verbose)
       cat(paste("calculating component", i, "...\n"))
-    r <- regproj(x, kv = kv, ku = ku, wv = wv, wu = wu, pos = pos, maxiter = maxiter)
+    r <- regproj(x, kv = kv, ku = ku, wv = wv, wu = wu, pos = pos, maxiter = maxiter, init = init)
     res$d[i] <- r$d
     res$u[, i] <- r$u
     res$v[, i] <- r$v

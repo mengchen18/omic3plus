@@ -5,10 +5,10 @@
 \title{cross-validation for softSVD}
 \usage{
 cv.softSVD(x, nf = 1, kv.opt = c(0.3, 0.5, 0.8), ku.opt = c(0.3, 0.5,
-  0.8), wv = 1, wu = 1, pos = FALSE, maxiter = 50,
-  tol = sqrt(.Machine$double.eps), verbose = FALSE, ncores = 1,
-  fold = 5, nstart = 1, seed = NULL, loorss = FALSE, scan = FALSE,
-  nsd = 2)
+  0.8), wv = 1, wu = 1, pos = FALSE, maxiter = 50, init = c("svd",
+  "average")[2], tol = sqrt(.Machine$double.eps), verbose = FALSE,
+  ncores = 1, fold = 5, nstart = 1, seed = NULL, loorss = FALSE,
+  scan = FALSE, nsd = 2)
 }
 \arguments{
 \item{x}{input matrix}

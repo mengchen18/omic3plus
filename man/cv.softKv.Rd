@@ -6,8 +6,8 @@
 \usage{
 cv.softKv(x, nf = 1, kv.opt = c(0.3, 0.5, 0.8), wv = 1, wu = 1,
   pos = FALSE, maxiter = 50, tol = sqrt(.Machine$double.eps),
-  verbose = FALSE, ncores = 1, fold = 5, nstart = 1, seed = NULL,
-  loorss = FALSE)
+  verbose = FALSE, init = c("svd", "average")[2], ncores = 1, fold = 5,
+  nstart = 1, seed = NULL, loorss = FALSE)
 }
 \arguments{
 \item{x}{input matrix}
@@ -27,6 +27,8 @@ cv.softKv(x, nf = 1, kv.opt = c(0.3, 0.5, 0.8), wv = 1, wu = 1,
 \item{tol}{convergence tolerance}
 
 \item{verbose}{if print the progress}
+
+\item{init}{how to initialize the algorithm. if no sparsity, svd is fast.}
 
 \item{ncores}{the number of cores used, passed to mclapply}
 

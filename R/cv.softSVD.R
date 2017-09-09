@@ -12,6 +12,7 @@
 #' @param verbose if print the progress
 #' @param ncores the number of cores used, passed to mclapply
 #' @param fold fold number in cross validation
+#' @param init how to initialize the algorithm. if no sparsity, svd is fast.
 #' @param nstart how many time the k-fold cross validation should be done
 #' @param seed set seed
 #' @param loorss if the Leave-one-out procedure should be used in matrix reconstruction
@@ -23,6 +24,7 @@
 
 cv.softKv <- function(x, nf = 1, kv.opt = c(0.3, 0.5, 0.8), wv = 1, wu = 1, pos = FALSE,
                       maxiter = 50, tol = sqrt(.Machine$double.eps), verbose = FALSE,
+                      init = c("svd", "average")[2],
                       ncores = 1, fold = 5, nstart = 1, seed = NULL, loorss = FALSE) {
   
   set.seed(NULL)
@@ -48,7 +50,7 @@ cv.softKv <- function(x, nf = 1, kv.opt = c(0.3, 0.5, 0.8), wv = 1, wu = 1, pos 
       m.test <- x[i, ]
       
       sapply(kv.opt, function(k) {
-        s0 <- softSVD(m.train, nf = nf, kv = k, maxiter = maxiter, wv = wv, 
+        s0 <- softSVD(m.train, nf = nf, kv = k, maxiter = maxiter, wv = wv, init = init,
                       wu = wu, pos = pos, tol = tol, verbose = verbose)
         if (!loorss) {
           prd.text <- tcrossprod(m.test %*% s0$v, s0$v)
@@ -120,7 +122,7 @@ cv.softKv <- function(x, nf = 1, kv.opt = c(0.3, 0.5, 0.8), wv = 1, wu = 1, pos 
 #' #' cv <- cv.softSVD(x = mat, nf = 1, kv.opt = 1:10, ku.opt = 1:8, scan = TRUE)
 
 cv.softSVD <- function(x, nf = 1, kv.opt = c(0.3, 0.5, 0.8), ku.opt = c(0.3, 0.5, 0.8), 
-                       wv = 1, wu = 1, pos = FALSE, maxiter = 50, 
+                       wv = 1, wu = 1, pos = FALSE, maxiter = 50, init = c("svd", "average")[2],
                        tol = sqrt(.Machine$double.eps), verbose = FALSE,
                        ncores = 1, fold = 5, nstart = 1, seed = NULL, loorss = FALSE, 
                        scan = FALSE, nsd = 2) {
@@ -129,8 +131,12 @@ cv.softSVD <- function(x, nf = 1, kv.opt = c(0.3, 0.5, 0.8), ku.opt = c(0.3, 0.5
   sel.u <- ku.opt[1]
   ov <- ou <- NA
   if (length(kv.opt) > 1) {
+    
+    if (verbose)
+      cat("optimizing k for x ...\n")
+    
     ov <- cv.softKv(x, nf = nf, kv.opt = kv.opt, wv = wv, wu = wu, pos = pos,
-              maxiter = maxiter, tol = tol, verbose = FALSE,
+              maxiter = maxiter, tol = tol, verbose = FALSE, init = init,
               ncores = ncores, fold = fold, nstart = nstart, 
               seed = seed, loorss = loorss)
     
@@ -138,14 +144,15 @@ cv.softSVD <- function(x, nf = 1, kv.opt = c(0.3, 0.5, 0.8), ku.opt = c(0.3, 0.5
     lb <- pmax(0, ov$mean - nsd*ov$sd)
     ub <- ov$mean + nsd*ov$sd
     mub <- min(ub)
-    sel.v <- which(ov$mean < mub)[[1]]
+    ii <- which(ov$mean < mub)[[1]]
+    sel.v <- kv.opt[ii]
     if (scan) {
       xa <- 1:length(ov$mean)
       plot(xa, ov$mean, ylim=range(c(lb, ub)), pch=19, xlab="k", ylab="PRESS +/- 2SD")
       arrows(xa, lb, xa, ub, length=0.05, angle=90, code=3)
       abline(h = mub, lty = 2)
       mtext(side = 3, text = kv.opt, at = xa)
-      abline(v = sel.v, lty = 3, col = "green", lwd = 3)
+      abline(v = ii, lty = 3, col = "green", lwd = 3)
       ii <- as.integer(readline("Select k for variables in x:"))
       if (!is.na(ii)) {
         sel.v <- kv.opt[ii]
@@ -156,11 +163,14 @@ cv.softSVD <- function(x, nf = 1, kv.opt = c(0.3, 0.5, 0.8), ku.opt = c(0.3, 0.5
   }
   if (length(ku.opt) > 1) {
     
+    if (verbose)
+      cat("optimizing k for y ...\n")
+    
     xt <- t(x)
     wvt <- wu
     wut <- wv
     ou <- cv.softKv(xt, nf = nf, kv.opt = ku.opt, wv = wvt, wu = wut, pos = pos,
-                    maxiter = maxiter, tol = tol, verbose = FALSE,
+                    maxiter = maxiter, tol = tol, verbose = FALSE, init = init,
                     ncores = ncores, fold = fold, nstart = nstart, 
                     seed = seed, loorss = loorss)
     #
@@ -168,14 +178,15 @@ cv.softSVD <- function(x, nf = 1, kv.opt = c(0.3, 0.5, 0.8), ku.opt = c(0.3, 0.5
     lb <- pmax(0, ov$mean - nsd*ov$sd)
     ub <- ov$mean + nsd*ov$sd
     mub <- min(ub)
-    sel.u <- which(ov$mean < mub)[[1]]
+    ii <- which(ov$mean < mub)[[1]]
+    sel.u <- ku.opt[ii]
     if (scan) {
       xa <- 1:length(ov$mean)
       plot(xa, ov$mean, ylim=range(c(lb, ub)), pch=19, xlab="k", ylab="PRESS +/- 2SD")
       arrows(xa, lb, xa, ub, length=0.05, angle=90, code=3)
       abline(h = mub, lty = 2)
       mtext(side = 3, text = ku.opt, at = xa)
-      abline(v = sel.u, lty = 3, col = "green", lwd = 3)
+      abline(v = ii, lty = 3, col = "green", lwd = 3)
       ii <- as.integer(readline("Select k for variables in y:"))
       if (!is.na(ii)) {
         sel.u <- ku.opt[ii]

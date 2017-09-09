@@ -6,8 +6,9 @@
 \usage{
 concord(x, y, ncomp = 2, dmod = 1, center = TRUE, scale = FALSE,
   option = "uniform", kx = "all", ky = "all", wx = 1, wy = 1,
-  pos = FALSE, verbose = TRUE, ncores = 1, fold = 5, nstart = 1,
-  seed = NULL, loorss = FALSE, scan = TRUE, nsd = 2)
+  pos = FALSE, verbose = TRUE, init = c("svd", "average")[2],
+  ncores = 1, fold = 5, nstart = 1, seed = NULL, loorss = FALSE,
+  scan = TRUE, nsd = 2)
 }
 \arguments{
 \item{x}{a list of predictive matrices. The columns are observations, rows are varaibles. The columns (observations)
@@ -38,6 +39,8 @@ a numeric value.}
 \item{pos}{logical value, whether only non-negative loadings retained}
 
 \item{verbose}{if the process of calculation should be printed}
+
+\item{init}{how to initialize the algorithm. if no sparsity, svd is fast.}
 
 \item{ncores}{number of cores to be used, passed to \code{\link{mclapply}}}
 

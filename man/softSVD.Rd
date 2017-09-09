@@ -5,7 +5,8 @@
 \title{penalized SVD}
 \usage{
 softSVD(x, nf = 1, kv = Inf, ku = Inf, wv = 1, wu = 1, pos = FALSE,
-  maxiter = 50, tol = sqrt(.Machine$double.eps), verbose = FALSE)
+  init = c("svd", "average")[2], maxiter = 50,
+  tol = sqrt(.Machine$double.eps), verbose = FALSE)
 }
 \arguments{
 \item{x}{the matrix to be decomposed}
@@ -21,6 +22,8 @@ softSVD(x, nf = 1, kv = Inf, ku = Inf, wv = 1, wu = 1, pos = FALSE,
 \item{wu}{the weight for rows of of x}
 
 \item{pos}{Logical value, if only retain non-negative values in the}
+
+\item{init}{how to initialize the algorithm. if no sparsity, svd is fast.}
 
 \item{maxiter}{the maximum number of iteration}
 

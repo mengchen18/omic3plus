@@ -22,6 +22,7 @@
 #' @param loorss if the Leave-one-out procedure should be used in matrix reconstruction
 #' @param scan If the PRESS plot should be shown and used to determine the optimal k in CV
 #' @param nsd the the n*sd for selecting k automatically
+#' @param init how to initialize the algorithm. if no sparsity, svd is fast.
 #' 
 #' @author Chen Meng
 #' @export
@@ -45,7 +46,8 @@
 
 
 concord <- function(x, y, ncomp=2, dmod = 1, center = TRUE, scale = FALSE, option = "uniform", 
-                    kx = "all", ky = "all", wx = 1, wy = 1, pos = FALSE, verbose = TRUE,
+                    kx = "all", ky = "all", wx = 1, wy = 1, pos = FALSE, verbose = TRUE, 
+                    init = c("svd", "average")[2],
                     # for cv
                     ncores = 1, fold = 5, nstart = 1, seed = NULL, loorss = FALSE, 
                     scan = TRUE, nsd = 2) {
@@ -94,12 +96,12 @@ concord <- function(x, y, ncomp=2, dmod = 1, center = TRUE, scale = FALSE, optio
       cat(paste("calculating component", f, "...\n"))
     
     S <- t(Ynorm) %*% Xcat
-    #  cv.softSVD
     ok <- cv.softSVD(S, nf = 1, kv.opt = kx, ku.opt = ky, wv = wx, wu = wy, pos = pos, 
-                     maxiter = 1000, verbose = TRUE, ncores = ncores, fold = fold, 
+                     maxiter = 1000, verbose = TRUE, ncores = ncores, fold = fold, init = init,
                      nstart = nstart, seed = seed, loorss = loorss, scan = scan, nsd = nsd)
-    
-    decom <- softSVD(x = S, nf = 1, kv = ok$sel.v, ku = ok$sel.u, wv = wx, wu = wy, 
+    if (verbose)
+      cat(paste0("optimal kx = ", ok$sel.v, "; optimal ky = ", ok$sel.u, ".\n"))
+    decom <- softSVD(x = S, nf = 1, kv = ok$sel.v, ku = ok$sel.u, wv = wx, wu = wy,init = init, 
                      pos = pos, maxiter = 1000, verbose = FALSE)
     
     xa <- Xcat %*% decom$v[, 1]
