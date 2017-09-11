@@ -8,7 +8,7 @@ concord(x, y, ncomp = 2, dmod = 1, center = TRUE, scale = FALSE,
   option = "uniform", kx = "all", ky = "all", wx = 1, wy = 1,
   pos = FALSE, verbose = TRUE, init = c("svd", "average")[2],
   ncores = 1, fold = 5, nstart = 1, seed = NULL, loorss = FALSE,
-  scan = TRUE, nsd = 2)
+  scan = TRUE, nsd = 1)
 }
 \arguments{
 \item{x}{a list of predictive matrices. The columns are observations, rows are varaibles. The columns (observations)

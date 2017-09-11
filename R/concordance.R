@@ -50,7 +50,7 @@ concord <- function(x, y, ncomp=2, dmod = 1, center = TRUE, scale = FALSE, optio
                     init = c("svd", "average")[2],
                     # for cv
                     ncores = 1, fold = 5, nstart = 1, seed = NULL, loorss = FALSE, 
-                    scan = TRUE, nsd = 2) {
+                    scan = TRUE, nsd = 1) {
   
   option <- match.arg(option, c("uniform", "lambda1", "inertia", "nk"))
   call <- match.call()
