@@ -39,7 +39,7 @@ targetResolve <- function(t, s, m, ncomp = 1, center = TRUE, scale = TRUE, optio
   if (km[1] > 0 & km[1] < 1) 
     km <- ceiling(sum(sapply(x, nrow)) * km)
   if (kt[1] > 0 & kt[1] < 1)
-    kt <- ceiling(nrow(y) * kt)
+    kt <- ceiling(nrow(t) * kt)
   
   #
   nmat <- length(m)
@@ -81,13 +81,13 @@ targetResolve <- function(t, s, m, ncomp = 1, center = TRUE, scale = TRUE, optio
     )
   
   for (i in 1:ncomp) {
-    ok <- cv.softSVD(mat, nf = 1, kv.opt = km, ku.opt = kt, wv = wx, wu = wy, pos = pos, 
+    ok <- cv.softSVD(mat, nf = 1, kv.opt = km, ku.opt = kt, wv = wm, wu = wt, pos = pos, 
                      maxiter = 1000, verbose = TRUE, ncores = ncores, fold = fold, init = init,
                      nstart = nstart, seed = seed, loorss = loorss, scan = scan, nsd = nsd)
     
     if (verbose)
-      cat(paste0("optimal km = ", ok$sel.v, "; optimal kt = ", ok$sel.u, ".\n"))
-    decom <- softSVD(x = mat, nf = 1, kv = ok$sel.v, ku = ok$sel.u, wv = wx, wu = wy,init = init, 
+      cat(paste0("Selected km = ", ok$sel.v, "; Selected kt = ", ok$sel.u, ".\n"))
+    decom <- softSVD(x = mat, nf = 1, kv = ok$sel.v, ku = ok$sel.u, wv = wm, wu = wt,init = init, 
                      pos = pos, maxiter = 1000, verbose = FALSE)
     
     if (i < ncomp)
@@ -100,12 +100,12 @@ targetResolve <- function(t, s, m, ncomp = 1, center = TRUE, scale = TRUE, optio
     score.ts <- s %*% normvec(score.m)
     score.ms <- crossprod(s, normvec(score.t))
     
-    ll$loading.m[,i] <- loading.m
-    ll$loading.t[,i] <- loading.t
-    ll$score.t[,i] <- score.t
-    ll$score.m[,i] <- score.m
-    ll$score.ts[,i] <- score.ts
-    ll$score.ms[,i] <- score.ms
+    ll$loading.m[, i] <- loading.m
+    ll$loading.t[, i] <- loading.t
+    ll$score.t[, i] <- score.t
+    ll$score.m[, i] <- score.m
+    ll$score.ts[, i] <- score.ts
+    ll$score.ms[, i] <- score.ms
     ll$sdev[i] <- decom$d[1]
   }
   
