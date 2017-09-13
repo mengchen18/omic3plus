@@ -91,6 +91,11 @@ concord <- function(x, y, ncomp=2, dmod = 1, center.x = TRUE, scale.x = FALSE,
   Xcat <- do.call("cbind", Xnorm)
   Ynorm.o <- Ynorm
   Xnorm.o <- Xnorm
+
+  if (inherits(wx, "list"))
+    wx <- unlist(wx)
+  if (inherits(wy, "list"))
+    wy <- unlist(wy)
   
   ys <- yloading <- gls <- bls <- loading <- var <- c()
   

@@ -4,11 +4,11 @@
 \alias{concord}
 \title{concordance analysis}
 \usage{
-concord(x, y, ncomp = 2, dmod = 1, center = TRUE, scale = FALSE,
-  option = "uniform", kx = "all", ky = "all", wx = 1, wy = 1,
-  pos = FALSE, verbose = TRUE, init = c("svd", "average")[2],
-  ncores = 1, fold = 5, nstart = 1, seed = NULL, loorss = FALSE,
-  scan = TRUE, nsd = 1)
+concord(x, y, ncomp = 2, dmod = 1, center.x = TRUE, scale.x = FALSE,
+  center.y = TRUE, scale.y = FALSE, option = "uniform", kx = "all",
+  ky = "all", wx = 1, wy = 1, pos = FALSE, verbose = TRUE,
+  init = c("svd", "average")[2], ncores = 1, fold = 5, nstart = 1,
+  seed = NULL, loorss = FALSE, scan = TRUE, nsd = 1)
 }
 \arguments{
 \item{x}{a list of predictive matrices. The columns are observations, rows are varaibles. The columns (observations)
@@ -20,9 +20,13 @@ has to be matched.}
 
 \item{dmod}{the deflation mode, dmod = 2 is the original publication of}
 
-\item{center}{logical values, whether the variables should be centered}
+\item{center.x}{logical values, whether the variables in x should be centered}
 
-\item{scale}{logical values, whether the variables should be scaled}
+\item{scale.x}{logical values, whether the variables in x should be scaled}
+
+\item{center.y}{logical values, whether the variables in y should be centered}
+
+\item{scale.y}{logical values, whether the variables in y should be scaled}
 
 \item{option}{the option for normalizing matrix}
 
