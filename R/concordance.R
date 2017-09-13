@@ -60,9 +60,9 @@ concord <- function(x, y, ncomp=2, dmod = 1, center.x = TRUE, scale.x = FALSE,
   #
   if (kx[1] == "all") kx <- Inf
   if (ky[1] == "all") ky <- Inf
-  if (kx[1] > 0 & kx[1] < 1) 
+  if (kx[1] > 0 && kx[1] < 1) 
     kx <- ceiling(sum(sapply(x, nrow)) * kx)
-  if (ky[1] > 0 & ky[1] < 1)
+  if (ky[1] > 0 && ky[1] < 1)
     ky <- ceiling(nrow(y) * ky)
   
   nmat <- length(x)

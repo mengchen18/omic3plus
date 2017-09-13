@@ -144,11 +144,12 @@ cv.softSVD <- function(x, nf = 1, kv.opt = c(0.3, 0.5, 0.8), ku.opt = c(0.3, 0.5
     lb <- pmax(0, ov$mean - nsd*ov$sd)
     ub <- ov$mean + nsd*ov$sd
     mub <- min(ub)
-    ii <- which(ov$mean < mub)[[1]]
+    ii <- which(ov$mean < mub)
+    ii <- ifelse(length(ii) == 0, 1, ii[[1]])
     sel.v <- kv.opt[ii]
     if (scan) {
       xa <- 1:length(ov$mean)
-      plot(xa, ov$mean, ylim=range(c(lb, ub)), pch=19, xlab="k", ylab="PRESS +/- 2SD")
+      plot(xa, ov$mean, ylim=range(c(lb, ub)), pch=19, xlab="k", ylab=paste0("PRESS +/- ", nsd, "*SD"))
       arrows(xa, lb, xa, ub, length=0.05, angle=90, code=3)
       abline(h = mub, lty = 2)
       mtext(side = 3, text = kv.opt, at = xa)
@@ -178,7 +179,8 @@ cv.softSVD <- function(x, nf = 1, kv.opt = c(0.3, 0.5, 0.8), ku.opt = c(0.3, 0.5
     lb <- pmax(0, ov$mean - nsd*ov$sd)
     ub <- ov$mean + nsd*ov$sd
     mub <- min(ub)
-    ii <- which(ov$mean < mub)[[1]]
+    ii <- which(ov$mean < mub)
+    ii <- ifelse(length(ii) == 0, 1, ii[[1]])
     sel.u <- ku.opt[ii]
     if (scan) {
       xa <- 1:length(ov$mean)
