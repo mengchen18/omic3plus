@@ -4,10 +4,12 @@
 \alias{normvec}
 \title{Normalized a vector to unit length}
 \usage{
-normvec(x)
+normvec(x, center = FALSE)
 }
 \arguments{
 \item{x}{a vector or matrix has one row/column}
+
+\item{center}{whether x should be centered}
 }
 \value{
 a normalized vector/matrix has the same length as x

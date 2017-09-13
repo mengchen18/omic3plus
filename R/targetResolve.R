@@ -37,7 +37,7 @@ targetResolve <- function(t, s, m, ncomp = 1, center = TRUE, scale = TRUE, optio
   if (km[1] == "all") km <- Inf
   if (kt[1] == "all") kt <- Inf
   if (km[1] > 0 & km[1] < 1) 
-    km <- ceiling(sum(sapply(x, nrow)) * km)
+    km <- ceiling(sum(sapply(m, nrow)) * km)
   if (kt[1] > 0 & kt[1] < 1)
     kt <- ceiling(nrow(t) * kt)
   
