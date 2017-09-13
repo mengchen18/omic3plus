@@ -4,8 +4,10 @@
 #' @param y a response matrix. Rows are variables, columns are observations. The columns should be matched with columns in x. 
 #' @param ncomp the number of components want to retain
 #' @param dmod the deflation mode, dmod = 2 is the original publication of 
-#' @param center logical values, whether the variables should be centered
-#' @param scale logical values, whether the variables should be scaled
+#' @param center.x logical values, whether the variables in x should be centered
+#' @param scale.x logical values, whether the variables in x should be scaled
+#' @param center.y logical values, whether the variables in y should be centered
+#' @param scale.y logical values, whether the variables in y should be scaled
 #' @param option the option for normalizing matrix
 #' @param kx the number (if it is an integer > 1) or the proportion (if 0 < ky < 1) of kept variables in x. It should be
 #'   a numeric value.
@@ -45,7 +47,8 @@
 #' abline(a = 0, b = 1)
 
 
-concord <- function(x, y, ncomp=2, dmod = 1, center = TRUE, scale = FALSE, option = "uniform", 
+concord <- function(x, y, ncomp=2, dmod = 1, center.x = TRUE, scale.x = FALSE, 
+                    center.y = TRUE, scale.y = FALSE, option = "uniform", 
                     kx = "all", ky = "all", wx = 1, wy = 1, pos = FALSE, verbose = TRUE, 
                     init = c("svd", "average")[2],
                     # for cv
@@ -74,7 +77,7 @@ concord <- function(x, y, ncomp=2, dmod = 1, center = TRUE, scale = FALSE, optio
   i.sample <- rep(names(x), each = nc)
   i.feature <- rep(names(x), nr)
   
-  Ynorm <- scale(t(y), center = center, scale = scale)
+  Ynorm <- scale(t(y), center = center.y, scale = scale.y)
   
   ##
   val <- switch(option,
@@ -84,7 +87,7 @@ concord <- function(x, y, ncomp=2, dmod = 1, center = TRUE, scale = FALSE, optio
                 "nk" = sqrt(min(nrow(y), ky)))
   
   Xnorm <- lapply(x, t)  
-  Xnorm <- processOpt(Xnorm, center = center, scale = scale, option = option, value = val, kx = kx)
+  Xnorm <- processOpt(Xnorm, center = center.x, scale = scale.x, option = option, value = val, kx = kx)
   Xcat <- do.call("cbind", Xnorm)
   Ynorm.o <- Ynorm
   Xnorm.o <- Xnorm
