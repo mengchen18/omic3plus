@@ -5,6 +5,7 @@
 #' @param k the number (if integer k>1) or proportion (if 0<k<1) of non-zero elements
 #' @param w the weight for each element, see "detail" section
 #' @param pos if only retain non-negative values
+#' @param round.digits the digits to be passed to round function. 
 #'
 #' @author Chen Meng
 #' @details 
@@ -20,7 +21,8 @@
 #' @keywords internal
 #' 
 
-softK <- function(x, k, w = 1, pos = FALSE) {
+softK <- function(x, k, w = 1, pos = FALSE, round.digits = 12) {
+  x <- round(x, digits = round.digits)
   if (k <= 0)
     stop("k should be postive integers or (0, 1)")
   n <- length(x)

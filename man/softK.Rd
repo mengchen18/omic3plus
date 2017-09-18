@@ -4,7 +4,7 @@
 \alias{softK}
 \title{weighted soft thresholding a vector}
 \usage{
-softK(x, k, w = 1, pos = FALSE)
+softK(x, k, w = 1, pos = FALSE, round.digits = 12)
 }
 \arguments{
 \item{x}{a vector}
@@ -14,6 +14,8 @@ softK(x, k, w = 1, pos = FALSE)
 \item{w}{the weight for each element, see "detail" section}
 
 \item{pos}{if only retain non-negative values}
+
+\item{round.digits}{the digits to be passed to round function.}
 }
 \description{
 soft-thresholding a vector with possibility of using weight and non-negative constraint
