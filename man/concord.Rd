@@ -7,8 +7,8 @@
 concord(x, y, ncomp = 2, dmod = 1, center.x = TRUE, scale.x = FALSE,
   center.y = TRUE, scale.y = FALSE, option = "uniform", kx = "all",
   ky = "all", wx = 1, wy = 1, pos = FALSE, verbose = TRUE,
-  init = c("svd", "average")[2], ncores = 1, fold = 5, nstart = 1,
-  seed = NULL, loorss = FALSE, scan = TRUE, nsd = 1)
+  init = c("svd", "average")[2], maxiter = 1000, ncores = 1, fold = 5,
+  nstart = 1, seed = NULL, loorss = FALSE, scan = TRUE, nsd = 1)
 }
 \arguments{
 \item{x}{a list of predictive matrices. The columns are observations, rows are varaibles. The columns (observations)
@@ -45,6 +45,8 @@ a numeric value.}
 \item{verbose}{if the process of calculation should be printed}
 
 \item{init}{how to initialize the algorithm. if no sparsity, svd is fast.}
+
+\item{maxiter}{maximum number of iterations allowed}
 
 \item{ncores}{number of cores to be used, passed to \code{\link{mclapply}}}
 
