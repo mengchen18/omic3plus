@@ -59,7 +59,7 @@ abs <- xmlApply(gs, function(x) {
   gss
 })
 abs <- abs[!sapply(abs, is.null)]
-gscs <- GeneSetCollection(ab)
+gscs <- GeneSetCollection(abs)
 
 saveRDS(gsc, file = "data/msigdb_v6_entrez.RDS")
 saveRDS(gscs, file = "data/msigdb_v6_symbol.RDS")
