@@ -25,8 +25,19 @@ fgseaRes <- fgsea(pathways = gs,
                   minSize=15,
                   maxSize=500,
                   nperm=10000)
+fgseaRes <- fgseaRes[fgseaRes$pval < 0.05, ]
 fgseaRes <- fgseaRes[order(fgseaRes$pval), ]
 head(fgseaRes)
 
-plotGseaTable(gs[fgseaRes$pathway[1:4]], x1, fgseaRes,
+plotGseaTable(gs[fgseaRes$pathway[1:20]], x1, fgseaRes,
               gseaParam = 0.5)
+
+
+fgseaRes$leadingEdge
+
+
+###
+
+ll <- minjaccard(gs)
+proxy::dist(fgseaRes$leadingEdge, method = "jaccard")
+
