@@ -11,6 +11,10 @@
 #' li
 
 minjaccard <- function(l) {
+  
+  if (!inherits(l, "list"))
+    stop("l should be list.")
+  
   a <- unique(unlist(l))
   am <- sapply(l, function(x) as.integer(a %in% x))
   inter <- crossprod(am)
@@ -21,5 +25,15 @@ minjaccard <- function(l) {
   d <- 1-inter/ms
   as.dist(d)
 }
+
+setGeneric("minjaccard")
+
+setMethod(minjaccard, "GeneSetCollection", 
+          definition = 
+            function(l) {
+              l <- lapply(l, geneIds)
+              minjaccard(l)
+            })
+
 
 
