@@ -8,6 +8,7 @@ library(GSEABase)
 data("NCI60_4arrays")
 db <- readRDS(file = "data/msigdb_v6_symbol.RDS")
 
+
 x <- NCI60_4arrays$agilent
 pc <- prcomp(t(x))
 plot(pc)
@@ -20,17 +21,15 @@ barplot(x1)
 
 s <- compGSEA(x = x1, genesets = db, fdr.thresh = 0.5, nperm = 10000, 
               nproc = 20, minSize = 5, maxSize = 500, trim.gs = TRUE)
-
 a <- s$upreg
 b <- s$downreg
 c <- s$gs
 
+sideRes <- s$upreg
+gslist <- c
 
-
-
-function(sideRes, side = "upregulated") {
-  # gsl <- db[sideRes$pathway]
-  gsl <- gsi[sideRes$pathway]
+function(sideRes, gslist, side = "upregulated") {
+  gsl <- gslist[sideRes$pathway]
   ds <- minjaccard(gsl)
   hcl <- hclust(ds, method = "complete")
   plot(hcl)
@@ -53,7 +52,7 @@ function(sideRes, side = "upregulated") {
       listUrl = urls(gs1)[["GENESET_LISTING_URL"]],
       extUrl = urls(gs1)[["EXTERNAL_DETAILS_URL"]], 
       parent = cls[i],
-      pvalue = fgseaRes$pval[i] 
+      pvalue = sideRes$pval[i] 
     )
   })
   clsLabel <- sapply(lsl, "[[", "parent")

@@ -36,7 +36,7 @@ setMethod(compGSEA, signature = c(genesets = "GeneSetCollection"),
           definition = function(x, genesets, fdr.thresh = 0.05, trim.gs = FALSE, ...) {
             
             genesetslist <- geneIds(genesets)
-            s <- compGSEA(x, genesetslist, fdr.thresh = fdr.thresh, trim.gs = FALSE, ...)
+            s <- compGSEA(x, genesetslist, fdr.thresh = fdr.thresh, trim.gs = trim.gs, ...)
             gsn <- c(s$upreg$pathway, s$downreg$pathway)
             gss <- lapply(genesets[gsn], function(x) {
               geneIds(x) <- s$gs[[setName(x)]]
